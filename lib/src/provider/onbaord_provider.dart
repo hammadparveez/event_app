@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 
-class OnBoardNotifier extends ChangeNotifier {
-  static final indicatorController  = PageController(initialPage: 1);
+class OnBoardProvider extends ChangeNotifier {
+  static final indicatorController = PageController(initialPage: 0);
+  static const maxIndex = 3;
+
   int currentIndex = 0;
-  
-  void changeIndex(int index) {
-    currentIndex = index;
-    notifyListeners();
-}
+
+  void next() {
+    if (currentIndex < maxIndex - 1) {
+      ++currentIndex;
+      _animateTo(currentIndex);
+      notifyListeners();
+    }
+  }
+
+  void previous() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      _animateTo(currentIndex);
+      notifyListeners();
+    }
+  }
+
+  void _animateTo(int index) => indicatorController.animateToPage(currentIndex,
+      curve: Curves.easeIn, duration: const Duration(milliseconds: 500));
 }
