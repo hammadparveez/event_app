@@ -1,16 +1,24 @@
 import 'package:event_app/src/provider/onbaord_provider.dart';
+import 'package:event_app/src/routes/routes.dart';
 import 'package:event_app/src/util/constants/app_theme.dart';
 import 'package:event_app/src/view/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatefulWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+  const App({super.key});
 
+  @override
+  State<App> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<App> {
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -25,7 +33,9 @@ class MyApp extends StatelessWidget {
             foregroundColor: MaterialStatePropertyAll(AppColors.white),
           )),
         ),
-        home: OnBoardingView(),
+        navigatorKey: App.navigatorKey,
+        initialRoute: AppRoutes.onboard,
+        onGenerateRoute: AppRoutes.onRouteGenerate,
       ),
     );
   }

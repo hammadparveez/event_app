@@ -1,4 +1,5 @@
 import 'package:event_app/src/provider/onbaord_provider.dart';
+import 'package:event_app/src/routes/routes.dart';
 import 'package:event_app/src/util/constants/app_theme.dart';
 import 'package:event_app/src/view/onboarding/components/onboarding_content.dart';
 import 'package:flutter/material.dart';
@@ -93,41 +94,40 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(
-                            style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(
-                                    EdgeInsets.fromLTRB(0, 8, 8, 8)),
-                                foregroundColor: MaterialStatePropertyAll(
-                                    AppColors.lightPrimaryColor)),
-                            onPressed: () {
-                              // _slideAnimationController.reverse();
-                              Provider.of<OnBoardProvider>(context,
-                                      listen: false)
-                                  .previous();
-                            },
-                            child: Text('Skip')),
-                        Consumer<OnBoardProvider>(
-                            builder: (context, value, child) {
-                          return AnimatedSmoothIndicator(
-                            activeIndex: value.currentIndex,
-                            effect: const WormEffect(
-                                dotHeight: 8,
-                                dotWidth: 8,
-                                dotColor: AppColors.lightPrimaryColor,
-                                activeDotColor: AppColors.white),
-                            count: OnBoardProvider.maxIndex,
-                          );
-                        }),
+                        Visibility(
+                          maintainAnimation: true,
+                          maintainState: true,
+                          maintainSize: true,
+                          visible:
+                              !(context.watch<OnBoardProvider>().currentIndex ==
+                                  2),
+                          child: TextButton(
+                              style: const ButtonStyle(
+                                  padding: MaterialStatePropertyAll(
+                                      EdgeInsets.fromLTRB(0, 8, 8, 8)),
+                                  foregroundColor: MaterialStatePropertyAll(
+                                      AppColors.lightPrimaryColor)),
+                              onPressed: () => Navigator.popAndPushNamed(
+                                  context, AppRoutes.home),
+                              child: Text('Skip')),
+                        ),
+                        AnimatedSmoothIndicator(
+                          activeIndex:
+                              context.watch<OnBoardProvider>().currentIndex,
+                          effect: const WormEffect(
+                              dotHeight: 8,
+                              dotWidth: 8,
+                              dotColor: AppColors.lightPrimaryColor,
+                              activeDotColor: AppColors.white),
+                          count: OnBoardProvider.maxIndex,
+                        ),
                         TextButton(
                             style: const ButtonStyle(
                                 padding: MaterialStatePropertyAll(
                                     EdgeInsets.fromLTRB(8, 8, 0, 8))),
-                            onPressed: () {
-                              Provider.of<OnBoardProvider>(context,
-                                      listen: false)
-                                  .next();
-                            },
-                            child: Text('Next')),
+                            onPressed: context.read<OnBoardProvider>().next,
+                            child: Text(
+                                context.watch<OnBoardProvider>().nextBtnTitle)),
                       ],
                     ),
                   ],
