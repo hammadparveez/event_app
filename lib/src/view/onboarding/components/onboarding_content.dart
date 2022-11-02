@@ -13,7 +13,7 @@ class OnBoardingContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 43.0),
       child: Column(
-        children:  [
+        children: [
           Text(
             title,
             textAlign: TextAlign.center,
@@ -23,7 +23,8 @@ class OnBoardingContent extends StatelessWidget {
           Text(
             desc,
             textAlign: TextAlign.center,
-            style:const  TextStyle(fontSize: 15, color: AppColors.white, height: 1.5),
+            style: const TextStyle(
+                fontSize: 15, color: AppColors.white, height: 1.5),
           ),
         ],
       ),

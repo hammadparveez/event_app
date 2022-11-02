@@ -9,6 +9,11 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingView extends StatelessWidget {
   OnBoardingView({super.key});
+  final images = [
+    'assets/images/onboard_phone.png',
+    'assets/images/onboard_calc.png',
+    'assets/images/onboard_phone.png',
+  ];
 
   final contents = [
     const OnBoardingContent(
@@ -24,72 +29,100 @@ class OnBoardingView extends StatelessWidget {
         desc:
             'In publishing and graphic design, Lorem is a placeholder text commonly'),
   ];
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    debugPrint('Size : ${MediaQuery.of(context).size}');
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Image.asset('assets/images/onboard_phone.png'),
-          ),
-          // const Spacer(),
-          Expanded(
-            flex: 4,
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50)),
-              ),
-              padding: EdgeInsets.all(40),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: PageView.builder(
-                        controller: OnBoardProvider.indicatorController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: OnBoardProvider.maxIndex,
-                        itemBuilder: (context, index) => contents[index]),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                          style: const ButtonStyle(
-                              foregroundColor: MaterialStatePropertyAll(
-                                  AppColors.lightPrimaryColor)),
-                          onPressed: Provider.of<OnBoardProvider>(context,
-                                  listen: false)
-                              .previous,
-                          child: Text('Skip')),
-                      Consumer<OnBoardProvider>(
-                          builder: (context, value, child) {
-                        return AnimatedSmoothIndicator(
-                          activeIndex: value.currentIndex,
-                          effect: const WormEffect(
-                              dotHeight: 8,
-                              dotWidth: 8,
-                              dotColor: AppColors.lightPrimaryColor,
-                              activeDotColor: AppColors.white),
-                          count: OnBoardProvider.maxIndex,
-                        );
-                      }),
-                      TextButton(
-                          onPressed: () {
-                            Provider.of<OnBoardProvider>(context, listen: false)
-                                .next();
-                          },
-                          child: Text('Next')),
-                    ],
-                  ),
-                ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                itemCount: OnBoardProvider.maxIndex,
+                physics: const NeverScrollableScrollPhysics(),
+                controller: OnBoardProvider.indicatorController1,
+                itemBuilder: (_, index) => TweenAnimationBuilder(
+                    duration: const Duration(milliseconds: 500),
+                    tween: Tween<Offset>(
+                        begin: const Offset(0, 1), end: const Offset(0, 0)),
+                    builder: (context, value, child) {
+                      return AnimatedSlide(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linearToEaseOut,
+                        offset: value,
+                        child: Image.asset(images[index]),
+                      );
+                    }),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: (height / 100) * 43.18,
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50)),
+                ),
+                padding: const EdgeInsets.fromLTRB(40, 40, 40, 37),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: PageView.builder(
+                          controller: OnBoardProvider.indicatorController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: OnBoardProvider.maxIndex,
+                          itemBuilder: (context, index) => contents[index]),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            style: const ButtonStyle(
+                                padding: MaterialStatePropertyAll(
+                                    EdgeInsets.fromLTRB(0, 8, 8, 8)),
+                                foregroundColor: MaterialStatePropertyAll(
+                                    AppColors.lightPrimaryColor)),
+                            onPressed: () {
+                              // _slideAnimationController.reverse();
+                              Provider.of<OnBoardProvider>(context,
+                                      listen: false)
+                                  .previous();
+                            },
+                            child: Text('Skip')),
+                        Consumer<OnBoardProvider>(
+                            builder: (context, value, child) {
+                          return AnimatedSmoothIndicator(
+                            activeIndex: value.currentIndex,
+                            effect: const WormEffect(
+                                dotHeight: 8,
+                                dotWidth: 8,
+                                dotColor: AppColors.lightPrimaryColor,
+                                activeDotColor: AppColors.white),
+                            count: OnBoardProvider.maxIndex,
+                          );
+                        }),
+                        TextButton(
+                            style: const ButtonStyle(
+                                padding: MaterialStatePropertyAll(
+                                    EdgeInsets.fromLTRB(8, 8, 0, 8))),
+                            onPressed: () {
+                              Provider.of<OnBoardProvider>(context,
+                                      listen: false)
+                                  .next();
+                            },
+                            child: Text('Next')),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
