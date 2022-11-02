@@ -7,8 +7,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnBoardingView extends StatelessWidget {
+class OnBoardingView extends StatefulWidget {
   OnBoardingView({super.key});
+
+  @override
+  State<OnBoardingView> createState() => _OnBoardingViewState();
+}
+
+class _OnBoardingViewState extends State<OnBoardingView> {
   final images = [
     'assets/images/onboard_phone.png',
     'assets/images/onboard_calc.png',
@@ -31,6 +37,13 @@ class OnBoardingView extends StatelessWidget {
   ];
 
   @override
+  void dispose() {
+    OnBoardProvider.indicatorController.dispose();
+    OnBoardProvider.imageSlideController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     debugPrint('Size : ${MediaQuery.of(context).size}');
@@ -42,7 +55,7 @@ class OnBoardingView extends StatelessWidget {
               child: PageView.builder(
                 itemCount: OnBoardProvider.maxIndex,
                 physics: const NeverScrollableScrollPhysics(),
-                controller: OnBoardProvider.indicatorController1,
+                controller: OnBoardProvider.imageSlideController,
                 itemBuilder: (_, index) => TweenAnimationBuilder(
                     duration: const Duration(milliseconds: 500),
                     tween: Tween<Offset>(
