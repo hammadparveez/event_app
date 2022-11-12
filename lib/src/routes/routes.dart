@@ -13,8 +13,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => OnBoardingView());
       case home:
         return MaterialPageRoute(builder: (_) => const HomeView());
-      default:
-        return MaterialPageRoute(builder: (_) => const HomeView());
     }
   }
 }

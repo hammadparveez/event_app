@@ -17,7 +17,8 @@ class OnBoardProvider extends ChangeNotifier {
       if (currentIndex == 2) nextBtnTitle = 'Go';
       notifyListeners();
     } else {
-      Navigator.pushNamed(App.navigatorKey.currentContext!, AppRoutes.home);
+      Navigator.popAndPushNamed(
+          App.navigatorKey.currentContext!, AppRoutes.home);
     }
   }
 

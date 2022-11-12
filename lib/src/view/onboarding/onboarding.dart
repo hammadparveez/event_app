@@ -1,3 +1,4 @@
+import 'package:event_app/main.dart';
 import 'package:event_app/src/provider/onbaord_provider.dart';
 import 'package:event_app/src/routes/routes.dart';
 import 'package:event_app/src/util/constants/app_theme.dart';
@@ -43,6 +44,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     OnBoardProvider.imageSlideController.dispose();
     super.dispose();
   }
+
+  void _navigateToHome() => Navigator.popAndPushNamed(context, AppRoutes.home);
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +110,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                                       EdgeInsets.fromLTRB(0, 8, 8, 8)),
                                   foregroundColor: MaterialStatePropertyAll(
                                       AppColors.lightPrimaryColor)),
-                              onPressed: () => Navigator.popAndPushNamed(
-                                  context, AppRoutes.home),
-                              child: Text('Skip')),
+                              onPressed: _navigateToHome,
+                              child: const Text('Skip')),
                         ),
                         AnimatedSmoothIndicator(
                           activeIndex:
