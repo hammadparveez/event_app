@@ -18,7 +18,6 @@ class App extends StatefulWidget {
 }
 
 class _MyAppState extends State<App> {
-  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
